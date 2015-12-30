@@ -1,7 +1,7 @@
 "use strict"
 
 // Usage: node bibtex2json.js filename.bib
-// Requires that parse-bibtex.js is in hte same directory as bibtex2json.js
+// Requires that parse-bibtex.js is in the same directory as bibtex2json.js
 var filepath = __dirname + "/" + process.argv[2];
 var bib = require("fs").readFileSync(filepath).toString();
 var parse = require(__dirname + "/parse-bibtex.js");
