@@ -231,7 +231,7 @@ function BibtexParser() {
   }
 
   this.entry = function(d) {
-    this.entry_body(d);
+      this.entry_body(d);
   }
 
   this.bibtex = function() {
@@ -246,6 +246,7 @@ function BibtexParser() {
         this.comment();
       } else {
         this.entry(d);
+//	  console.log("foo:" + d);
       }
       this.match("}");
     }

@@ -8,6 +8,15 @@ var parse = require(__dirname + "/parse-bibtex.js");
 
 var parsed = parse(bib);
 
+//Make an array of orig bibtex entries as strings
+var origBibtex = bib.trim().split("@");
+origBibtex.splice(0,1);
+origBibtex.forEach(function(entry,index,origBibtex){
+    //splice removes the @ sign so I add it back to the bibtex entry.
+    origBibtex[index] = "@" + entry;
+})
+//console.log(origBibtex);
+
 //Dictionary for converting latex special character codes into utf-8
 //equivalents
 var specialCharsDict = {
@@ -113,14 +122,19 @@ function escapeRegExp(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }
 
+// set up iterator for origBibtex
+var origBibIdx = 0;
+
 for (var key in parsed) {
     // parse-bibtex always makes an extra @comments entry at end of pubs list.
     // We skip processing this entry.
     if(key == '@comments') continue;
 
     var pub = parsed[key];
-    
+
     var finalPub = {};
+    finalPub["bibtex"] = origBibtex[origBibIdx];
+    origBibIdx++;
 
     // Start by copying over all fields from pub to finalpub
     for (var pubkey in pub) {
@@ -141,6 +155,7 @@ for (var key in parsed) {
 	finalPub[pubkey.toLowerCase()] = value;
     }
 
+    
     // Reformat TITLE field to titleCase (see function above)
     var title = finalPub["title"];
     var finalTitle = title;
@@ -217,6 +232,9 @@ for (var key in parsed) {
 //    console.log("      ");
 
     finalPubsList.push(finalPub);
+
 }
-console.log(JSON.stringify(finalPubsList, null, "    "));
+
 //console.log(parsed);
+//console.log(JSON.stringify(finalPubsList, null, "    "));
+
