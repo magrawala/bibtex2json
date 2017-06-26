@@ -236,5 +236,5 @@ for (var key in parsed) {
 }
 
 //console.log(parsed);
-//console.log(JSON.stringify(finalPubsList, null, "    "));
+console.log(JSON.stringify(finalPubsList, null, "    "));
 
